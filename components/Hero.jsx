@@ -2,8 +2,12 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function Hero() {
+
+  const router = useRouter()
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       <div
@@ -33,9 +37,12 @@ export default function Hero() {
             <Link href="/products" className="btn-primary">
               Explore Products
             </Link>
-            <Link href="/contact" className="btn-outline">
+            <button
+              onClick={() => router.replace('/contact')}
+              className="btn-outline"
+            >
               Get Quote
-            </Link>
+            </button>
           </div>
         </motion.div>
       </div>

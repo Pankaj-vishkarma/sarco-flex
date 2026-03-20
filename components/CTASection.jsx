@@ -5,9 +5,11 @@ import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Link from 'next/link'
 import { FaQuoteRight } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
 
 export default function CTASection() {
   const ref = useRef(null)
+  const router = useRouter()
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
@@ -37,9 +39,12 @@ export default function CTASection() {
             more sustainable future.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="/contact" className="btn-primary">
+            <button
+              onClick={() => router.replace('/contact')}
+              className="btn-primary"
+            >
               Request a Quote
-            </Link>
+            </button>
             <Link href="/products" className="btn-outline">
               Explore Products
             </Link>

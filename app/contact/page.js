@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export default function ContactPage() {
     phone: '',
     message: '',
   })
+  const router = useRouter()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -18,8 +20,7 @@ export default function ContactPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    alert('Thank you for your message! We will get back to you soon.')
-    setFormData({ name: '', email: '', phone: '', message: '' })
+    router.replace('/thank-you')
   }
 
   return (

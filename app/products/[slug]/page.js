@@ -5,6 +5,7 @@ import { use } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaCheckCircle, FaArrowLeft } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
 
 const productsData = {
   'tractor-tyres': {
@@ -89,7 +90,9 @@ const productsData = {
 
 export default function ProductDetailPage({ params }) {
   const { slug } = use(params)
+  const router = useRouter()
   const product = productsData[slug]
+
 
   if (!product) {
     return (
@@ -151,9 +154,12 @@ export default function ProductDetailPage({ params }) {
                 ))}
               </ul>
 
-              <Link href="/contact" className="btn-primary">
+              <button
+                onClick={() => router.replace('/contact')}
+                className="btn-primary"
+              >
                 Request a Quote
-              </Link>
+              </button>
             </motion.div>
           </div>
         </div>
