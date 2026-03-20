@@ -9,6 +9,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isProductsOpen, setIsProductsOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +17,17 @@ export default function Navbar() {
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024) // lg breakpoint
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   const products = [
@@ -29,9 +41,11 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-        ? 'bg-industrial-dark shadow-lg py-4'
-        : 'bg-transparent py-6'
+      className={`fixed w-full z-50 transition-all duration-300 ${isMobile
+        ? 'bg-industrial-dark py-4 shadow-lg'
+        : isScrolled
+          ? 'bg-industrial-dark shadow-lg py-4'
+          : 'bg-transparent py-6'
         }`}
     >
       <div className="container-custom">
