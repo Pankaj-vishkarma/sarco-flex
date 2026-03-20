@@ -21,7 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024) // lg breakpoint
+      setIsMobile(window.innerWidth < 1024)
     }
 
     checkMobile()
@@ -42,10 +42,10 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${isMobile
-        ? 'bg-industrial-dark py-4 shadow-lg'
-        : isScrolled
-          ? 'bg-industrial-dark shadow-lg py-4'
-          : 'bg-transparent py-6'
+          ? 'bg-industrial-dark py-4 shadow-lg'
+          : isScrolled
+            ? 'bg-industrial-dark shadow-lg py-4'
+            : 'bg-transparent py-6'
         }`}
     >
       <div className="container-custom">
@@ -56,6 +56,7 @@ export default function Navbar() {
             </div>
           </Link>
 
+          {/* Desktop Menu */}
           <div className="hidden lg:flex items-center space-x-8">
             <Link
               href="/"
@@ -69,25 +70,35 @@ export default function Navbar() {
             >
               About
             </Link>
+
+            {/* Products Dropdown */}
             <div
               className="relative py-2"
               onMouseEnter={() => setIsProductsOpen(true)}
               onMouseLeave={() => setIsProductsOpen(false)}
             >
-              <button className="text-white hover:text-industrial-accent transition-colors duration-300 font-medium flex items-center space-x-1">
+              <button
+                onClick={() => setIsProductsOpen((prev) => !prev)}
+                className="text-white hover:text-industrial-accent transition-colors duration-300 font-medium flex items-center space-x-1"
+              >
                 <span>Products</span>
                 <FaChevronDown className="text-xs" />
               </button>
+
               {isProductsOpen && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="absolute top-full left-0 mt-0 w-64 bg-white rounded-lg shadow-xl overflow-hidden"
                 >
+                  {/* invisible bridge */}
+                  <div className="absolute -top-3 left-0 w-full h-3"></div>
+
                   {products.map((product) => (
                     <Link
                       key={product.slug}
                       href={`/products/${product.slug}`}
+                      onClick={() => setIsProductsOpen(false)}
                       className="block px-6 py-3 hover:bg-gray-100 transition-colors duration-200 text-gray-800 hover:text-industrial-accent"
                     >
                       {product.name}
@@ -96,6 +107,7 @@ export default function Navbar() {
                 </motion.div>
               )}
             </div>
+
             <Link
               href="/infrastructure"
               className="text-white hover:text-industrial-accent transition-colors duration-300 font-medium"
@@ -113,6 +125,7 @@ export default function Navbar() {
             </Link>
           </div>
 
+          {/* Mobile Button */}
           <button
             className="lg:hidden text-white text-2xl"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -121,6 +134,7 @@ export default function Navbar() {
           </button>
         </div>
 
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -136,6 +150,7 @@ export default function Navbar() {
               >
                 Home
               </Link>
+
               <Link
                 href="/about"
                 className="text-white hover:text-industrial-accent transition-colors duration-300 font-medium"
@@ -143,35 +158,36 @@ export default function Navbar() {
               >
                 About
               </Link>
+
+              {/* Mobile Products */}
               <div>
                 <button
                   className="text-white hover:text-industrial-accent transition-colors duration-300 font-medium flex items-center space-x-1 w-full"
-                  onClick={() => setIsProductsOpen(!isProductsOpen)}
+                  onClick={() => setIsProductsOpen((prev) => !prev)}
                 >
                   <span>Products</span>
                   <FaChevronDown className="text-xs" />
                 </button>
-                {isProductsOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 mt-0 w-64 bg-white rounded-lg shadow-xl overflow-hidden"
-                  >
-                    {/* 🔥 invisible bridge */}
-                    <div className="absolute -top-3 left-0 w-full h-3"></div>
 
+                {isProductsOpen && (
+                  <div className="mt-2 ml-4 space-y-2">
                     {products.map((product) => (
                       <Link
                         key={product.slug}
                         href={`/products/${product.slug}`}
-                        className="block px-6 py-3 hover:bg-gray-100 transition-colors duration-200 text-gray-800 hover:text-industrial-accent"
+                        onClick={() => {
+                          setIsProductsOpen(false)
+                          setIsMobileMenuOpen(false)
+                        }}
+                        className="block text-gray-300 hover:text-industrial-accent transition-colors duration-200"
                       >
                         {product.name}
                       </Link>
                     ))}
-                  </motion.div>
+                  </div>
                 )}
               </div>
+
               <Link
                 href="/infrastructure"
                 className="text-white hover:text-industrial-accent transition-colors duration-300 font-medium"
@@ -179,6 +195,7 @@ export default function Navbar() {
               >
                 Infrastructure
               </Link>
+
               <Link
                 href="/contact"
                 className="text-white hover:text-industrial-accent transition-colors duration-300 font-medium"
@@ -186,6 +203,7 @@ export default function Navbar() {
               >
                 Contact
               </Link>
+
               <Link
                 href="/contact"
                 className="btn-primary inline-block text-center"
