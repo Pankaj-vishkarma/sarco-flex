@@ -29,11 +29,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-industrial-dark shadow-lg py-4'
-          : 'bg-transparent py-6'
-      }`}
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-industrial-dark shadow-lg py-4'
+        : 'bg-transparent py-6'
+        }`}
     >
       <div className="container-custom">
         <div className="flex items-center justify-between">
@@ -57,7 +56,7 @@ export default function Navbar() {
               About
             </Link>
             <div
-              className="relative"
+              className="relative py-2"
               onMouseEnter={() => setIsProductsOpen(true)}
               onMouseLeave={() => setIsProductsOpen(false)}
             >
@@ -69,7 +68,7 @@ export default function Navbar() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl overflow-hidden"
+                  className="absolute top-full left-0 mt-0 w-64 bg-white rounded-lg shadow-xl overflow-hidden"
                 >
                   {products.map((product) => (
                     <Link
@@ -139,18 +138,24 @@ export default function Navbar() {
                   <FaChevronDown className="text-xs" />
                 </button>
                 {isProductsOpen && (
-                  <div className="mt-2 ml-4 space-y-2">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute top-full left-0 mt-0 w-64 bg-white rounded-lg shadow-xl overflow-hidden"
+                  >
+                    {/* 🔥 invisible bridge */}
+                    <div className="absolute -top-3 left-0 w-full h-3"></div>
+
                     {products.map((product) => (
                       <Link
                         key={product.slug}
                         href={`/products/${product.slug}`}
-                        className="block text-gray-300 hover:text-industrial-accent transition-colors duration-200"
-                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block px-6 py-3 hover:bg-gray-100 transition-colors duration-200 text-gray-800 hover:text-industrial-accent"
                       >
                         {product.name}
                       </Link>
                     ))}
-                  </div>
+                  </motion.div>
                 )}
               </div>
               <Link
